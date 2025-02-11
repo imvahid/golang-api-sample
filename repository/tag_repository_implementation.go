@@ -16,7 +16,7 @@ func NewTagRepositoryImplementation(DB *gorm.DB) TagRepository {
 	return &TagRepositoryImplementation{DB: DB}
 }
 
-func (t *TagRepositoryImplementation) Save(tag model.Tag) {
+func (t *TagRepositoryImplementation) Create(tag model.Tag) {
 	result := t.DB.Create(&tag)
 	helper.ErrorPanic(result.Error)
 }
