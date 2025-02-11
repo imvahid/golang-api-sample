@@ -48,8 +48,9 @@ func (t *TagServiceImplementation) FindByID(tagID int) response.TagResponse {
 	helper.ErrorPanic(err)
 
 	tag := response.TagResponse{
-		ID:   result.ID,
-		Name: result.Name,
+		ID:        result.ID,
+		Name:      result.Name,
+		CreatedAt: result.CreatedAt,
 	}
 	return tag
 }
@@ -61,8 +62,9 @@ func (t *TagServiceImplementation) FindAll() []response.TagResponse {
 
 	for _, value := range result {
 		tag := response.TagResponse{
-			ID:   value.ID,
-			Name: value.Name,
+			ID:        value.ID,
+			Name:      value.Name,
+			CreatedAt: value.CreatedAt,
 		}
 		tags = append(tags, tag)
 	}
