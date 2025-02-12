@@ -5,20 +5,13 @@ import (
 	"github.com/imvahid/golang-api-sample/helper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-)
-
-const (
-	host     = "localhost"
-	port     = 3306
-	database = "sample"
-	username = "root"
-	password = ""
+	"os"
 )
 
 func MySQLConnection() *gorm.DB {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%v)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		username, password, host, port, database,
+		os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"),
 	)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	helper.ErrorPanic(err)
