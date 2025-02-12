@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/imvahid/golang-api-sample/config"
 	"github.com/imvahid/golang-api-sample/controller"
@@ -9,12 +10,26 @@ import (
 	"github.com/imvahid/golang-api-sample/repository"
 	"github.com/imvahid/golang-api-sample/router"
 	"github.com/imvahid/golang-api-sample/service"
+	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 	"net/http"
+	"os"
 )
+
+func init() {
+	err := godotenv.Load()
+	helper.ErrorPanic(err)
+}
 
 func main() {
 	log.Info().Msg("Started Server!")
+
+	// Set mode
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "" {
+		ginMode = gin.ReleaseMode // Default to release mode if not set
+	}
+	gin.SetMode(ginMode)
 
 	// Database
 	db := config.MySQLConnection()
@@ -35,7 +50,7 @@ func main() {
 	routes := router.NewRouter(tagController)
 
 	server := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + os.Getenv("APP_PORT"),
 		Handler: routes,
 	}
 
